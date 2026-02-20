@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ADU Canada | ROI Calculator</title>
+  <meta name="description" content="Estimate ROI for an ADU Canada backyard home." />
+  <link rel="stylesheet" href="/assets/css/index.css" />
+  <style>
+    .roi-wrap { max-width: 980px; margin: 0 auto; padding: 7rem 1.5rem 4rem; }
+    .roi-card { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
+    .roi-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    @media (min-width: 860px){ .roi-grid { grid-template-columns: 1fr 1fr; } }
+    .roi-row { display: grid; gap: .35rem; }
+    .roi-row label { font-weight: 600; }
+    .roi-row input, .roi-row select { width: 100%; padding: .85rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; }
+    .roi-actions { display:flex; gap:1rem; flex-wrap:wrap; margin-top: 1.25rem; }
+    .roi-results { margin-top: 1.5rem; background: #f8f9fa; border-radius: 12px; padding: 1.25rem; }
+    .roi-kpis { display:grid; grid-template-columns: 1fr; gap: .75rem; }
+    @media (min-width: 860px){ .roi-kpis { grid-template-columns: 1fr 1fr; } }
+    .roi-kpi { background: white; border-radius: 10px; padding: 1rem; border: 1px solid #eaeaea; }
+    .roi-kpi .k { font-size: .9rem; color:#666; }
+    .roi-kpi .v { font-size: 1.6rem; font-weight: 800; margin-top:.15rem; }
+    .roi-note { margin-top: .75rem; font-size: .92rem; color:#666; }
+    .roi-topbar { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1rem; }
+    .roi-topbar a { text-decoration:none; }
+  </style>
+  <script defer data-domain="aducanada.com" src="/assets/analytics/plausible.js"></script>
+</head>
+<body>
+  <nav>
+    <a href="/" class="logo" aria-label="ADU Canada Home">
+      <span class="logo-re">ADU</span>
+      <span>ADU Canada</span>
+      <span style="color:#ff6b6b;margin-left:2px;">.</span>
+    </a>
+    <div class="nav-links">
+      <a href="/models">Models</a>
+      <a href="/process">Process</a>
+      <a href="/pricing">Pricing</a>
+      <a href="/gallery">Gallery</a>
+      <a href="/roi" class="btn-secondary">Get ROI Estimate</a>
+      <a class="btn-primary" href="mailto:sales@aducanada.com?subject=ADU%20Canada%20-%20Schedule%20a%20Consultation">Schedule a Free Consultation</a>
+    </div>
+  </nav>
+
+  <main class="roi-wrap">
+    <div class="roi-topbar">
+      <h1 style="margin:0;">ROI Calculator</h1>
+      <a class="btn-secondary" href="/">Back to Home</a>
+    </div>
+
+    <div class="roi-card">
+      <p style="color:#666;margin-top:0;">
+        Quick estimate to support your decision-making. This is not a binding quote.
+      </p>
+
+      <div class="roi-grid">
+        <div class="roi-row">
+          <label for="rent">Expected Monthly Rent (USD)</label>
+          <input id="rent" type="number" min="0" step="50" value="1800" />
+        </div>
+
+        <div class="roi-row">
+          <label for="buildCost">Estimated Total Build Cost (USD)</label>
+          <input id="buildCost" type="number" min="0" step="500" value="150000" />
+        </div>
+
+        <div class="roi-row">
+          <label for="vacancy">Vacancy Rate (%)</label>
+          <input id="vacancy" type="number" min="0" max="100" step="0.5" value="5" />
+        </div>
+
+        <div class="roi-row">
+          <label for="opex">Operating + Maintenance (%)</label>
+          <input id="opex" type="number" min="0" max="100" step="0.5" value="15" />
+        </div>
+
+        <div class="roi-row">
+          <label for="propMgmt">Property Management (%)</label>
+          <input id="propMgmt" type="number" min="0" max="100" step="0.5" value="0" />
+        </div>
+
+        <div class="roi-row">
+          <label for="financing">Financing</label>
+          <select id="financing">
+            <option value="cash">Cash Purchase</option>
+            <option value="loan">Loan (simple)</option>
+          </select>
+        </div>
+
+        <div class="roi-row" id="loanFields" style="display:none;">
+          <label for="down">Down Payment (USD)</label>
+          <input id="down" type="number" min="0" step="500" value="30000" />
+        </div>
+
+        <div class="roi-row" id="loanFields2" style="display:none;">
+          <label for="rate">Interest Rate (%)</label>
+          <input id="rate" type="number" min="0" step="0.1" value="7.5" />
+        </div>
+
+        <div class="roi-row" id="loanFields3" style="display:none;">
+          <label for="term">Term (years)</label>
+          <input id="term" type="number" min="1" step="1" value="20" />
+        </div>
+      </div>
+
+      <div class="roi-actions">
+        <button class="btn-primary" id="calcBtn" type="button">Calculate ROI</button>
+        <a class="btn-secondary" href="mailto:sales@aducanada.com?subject=ADU%20Canada%20-%20ROI%20Estimate%20Request">Email This to Sales</a>
+      </div>
+
+      <div class="roi-results" id="results" style="display:none;">
+        <div class="roi-kpis">
+          <div class="roi-kpi">
+            <div class="k">Annual Net Cashflow</div>
+            <div class="v" id="netAnnual">$0</div>
+          </div>
+          <div class="roi-kpi">
+            <div class="k">Payback Period (simple)</div>
+            <div class="v" id="payback">—</div>
+          </div>
+          <div class="roi-kpi" id="cocBox" style="display:none;">
+            <div class="k">Cash-on-Cash Return</div>
+            <div class="v" id="coc">—</div>
+          </div>
+          <div class="roi-kpi" id="dsBox" style="display:none;">
+            <div class="k">Annual Debt Service (est.)</div>
+            <div class="v" id="debt">$0</div>
+          </div>
+        </div>
+        <div class="roi-note" id="note"></div>
+      </div>
+    </div>
+  </main>
+
+<script>
+(function(){
+  const $ = (id) => document.getElementById(id);
+  const fmt = (n) => new Intl.NumberFormat(undefined, { style:"currency", currency:"USD", maximumFractionDigits:0 }).format(n);
+
+  function pmt(principal, annualRatePct, years){
+    const r = (annualRatePct/100)/12;
+    const n = years*12;
+    if (r === 0) return principal/n;
+    return principal * (r * Math.pow(1+r,n)) / (Math.pow(1+r,n)-1);
+  }
+
+  function toggleLoan(){
+    const on = $("financing").value === "loan";
+    $("loanFields").style.display = on ? "grid" : "none";
+    $("loanFields2").style.display = on ? "grid" : "none";
+    $("loanFields3").style.display = on ? "grid" : "none";
+    $("cocBox").style.display = on ? "block" : "none";
+    $("dsBox").style.display = on ? "block" : "none";
+  }
+
+  $("financing").addEventListener("change", toggleLoan);
+  toggleLoan();
+
+  $("calcBtn").addEventListener("click", function(){
+    const rent = Math.max(0, Number($("rent").value||0));
+    const build = Math.max(0, Number($("buildCost").value||0));
+    const vacancy = Math.min(100, Math.max(0, Number($("vacancy").value||0))) / 100;
+    const opex = Math.min(100, Math.max(0, Number($("opex").value||0))) / 100;
+    const pm = Math.min(100, Math.max(0, Number($("propMgmt").value||0))) / 100;
+
+    const grossAnnual = rent * 12;
+    const effectiveAnnual = grossAnnual * (1 - vacancy);
+    const expenseAnnual = effectiveAnnual * (opex + pm);
+    let netAnnual = effectiveAnnual - expenseAnnual;
+
+    const financing = $("financing").value;
+    let debtAnnual = 0;
+    let coc = null;
+
+    if (financing === "loan"){
+      const down = Math.max(0, Number($("down").value||0));
+      const rate = Math.max(0, Number($("rate").value||0));
+      const term = Math.max(1, Number($("term").value||20));
+      const principal = Math.max(0, build - down);
+      const monthly = pmt(principal, rate, term);
+      debtAnnual = monthly * 12;
+      netAnnual = netAnnual - debtAnnual;
+      if (down > 0) coc = netAnnual / down;
+    }
+
+    const payback = build > 0 ? (build / Math.max(1, (effectiveAnnual - expenseAnnual))) : null;
+
+    $("netAnnual").textContent = fmt(netAnnual);
+    $("payback").textContent = payback ? (payback.toFixed(1) + " yrs") : "—";
+    if (financing === "loan"){
+      $("debt").textContent = fmt(debtAnnual);
+      $("coc").textContent = (coc !== null && isFinite(coc)) ? ((coc*100).toFixed(1) + "%") : "—";
+    }
+
+    $("note").textContent =
+      "Estimates assume steady occupancy and do not include taxes, insurance, utilities, or permit fees. Use this to compare options, then request a formal estimate.";
+    $("results").style.display = "block";
+  });
+})();
+</script>
+</body>
+</html>
