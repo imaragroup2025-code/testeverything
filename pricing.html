@@ -1,132 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pricing & ROI Calculator | ADU Canada</title>
-  <link rel="stylesheet" href="/assets/css/index.css">
-  <script defer src="/assets/js/site.js"></script>
-</head>
-<body>
-  <!-- Nav (Same structure) -->
-  <nav class="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-    <div class="container mx-auto">
-      <div class="flex justify-between items-center h-20">
-        <a href="/" class="flex items-center gap-3 group">
-          <div class="bg-foreground text-background w-10 h-10 flex items-center justify-center group-hover:bg-amber-600 transition-colors duration-300">
-            <span class="font-medium text-base tracking-tight">RE</span>
-          </div>
-          <span class="font-medium text-xl tracking-tight text-foreground">ADU Canada<span class="text-amber-600 text-3xl leading-none">.</span></span>
-        </a>
-        <div class="hidden md:flex items-center gap-8">
-          <a href="/models.html" class="nav-link">Models</a>
-          <a href="/process.html" class="nav-link">Process</a>
-          <a href="/pricing.html" class="nav-link-active">Pricing</a>
-          <a href="/resources.html" class="nav-link">Resources</a>
-          <a href="/gallery.html" class="nav-link">Gallery</a>
-          <a href="/blog.html" class="nav-link">Blog</a>
-          <a href="mailto:sales@aducanada.com?subject=ADU%20Canada%20-%20Start%20Your%20Build" class="btn-nav">Start Your Build</a>
-        </div>
-        <button class="md:hidden menu-toggle">☰</button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Page Header -->
-  <section class="page-header">
-    <div class="container mx-auto">
-      <h1>ROI Calculator</h1>
-      <p class="page-subtitle">See how an ADU adds value to your Greater Windsor Area property</p>
-    </div>
-  </section>
-
-  <!-- ROI Calculator -->
-  <section class="roi-calculator-section">
-    <div class="container mx-auto">
-      <div class="roi-calculator-card">
-        <div class="roi-inputs">
-          <h3>Parameters</h3>
-          <div class="form-group">
-            <label>Total ADU Cost</label>
-            <input type="number" id="aduCost" value="150000" step="1000">
-          </div>
-          <div class="form-group">
-            <label>Est. Monthly Rent</label>
-            <input type="number" id="monthlyRent" value="1600" step="50">
-          </div>
-          <div class="form-group">
-            <label>Interest Rate (%)</label>
-            <input type="number" id="interestRate" value="7" step="0.1">
-          </div>
-          <button id="calculateBtn" class="btn-primary">Calculate</button>
-        </div>
-
-        <div class="roi-results" id="results">
-          <h3>Results</h3>
-          <div class="result-stat">
-            <span class="result-label">Annual Income</span>
-            <span class="result-value" id="annualIncome">$21,600</span>
-          </div>
-          <div class="result-stat">
-            <span class="result-label">Net Cash Flow (Yr 1)</span>
-            <span class="result-value" id="netCashFlow">+$7,645</span>
-          </div>
-          <div class="result-stat">
-            <span class="result-label">Payback Period</span>
-            <span class="result-value" id="payback">6.9 Years</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="pricing-disclaimer">
-        <p><strong>Note:</strong> This calculator provides estimates only. Actual costs vary by site conditions, model selection, and municipal requirements.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta-section-dark">
-    <div class="container mx-auto">
-      <div class="cta-content-flex">
-        <div>
-          <h2>Ready for a detailed quote?</h2>
-          <p>Let's discuss your site and provide accurate pricing.</p>
-        </div>
-        <a href="mailto:sales@aducanada.com?subject=ADU%20Canada%20-%20Start%20Your%20Build" class="btn-primary-large">Start Your Build</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer (Same) -->
-  <footer class="site-footer">
-    <div class="container mx-auto py-12">
-      <div class="footer-grid">
-        <div>
-          <span class="footer-logo">ADU Canada<span class="text-amber-600">.</span></span>
-          <p class="footer-tagline">Factory-built precision for Greater Windsor Area.</p>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>© 2025 ADU Canada. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-  document.getElementById('calculateBtn').addEventListener('click', function() {
-    const cost = parseFloat(document.getElementById('aduCost').value);
-    const rent = parseFloat(document.getElementById('monthlyRent').value);
-    const rate = parseFloat(document.getElementById('interestRate').value);
-    
-    const annualIncome = rent * 12;
-    const annualCost = cost * (rate / 100);
-    const netFlow = annualIncome - annualCost;
-    const payback = cost / annualIncome;
-    
-    document.getElementById('annualIncome').textContent = '$' + annualIncome.toLocaleString();
-    document.getElementById('netCashFlow').textContent = (netFlow > 0 ? '+' : '') + '$' + Math.round(netFlow).toLocaleString();
-    document.getElementById('payback').textContent = payback.toFixed(1) + ' Years';
-  });
-  </script>
-</body>
-</html>
+RE
+ADU Canada.
+Models Process Pricing Resources Gallery Blog Start Your Build
+☰
+ROI Calculator
+See how an ADU adds value to your Greater Windsor Area property
+Parameters
+Total ADU Cost
+Est. Monthly Rent
+Interest Rate (%)
+Calculate
+Results
+Annual Income $21,600
+Net Cash Flow (Yr 1) +$7,645
+Payback Period 6.9 Years
+Note: This calculator provides estimates only. Actual costs vary by site conditions, model selection, and municipal requirements.
+Ready for a detailed quote?
+Let's discuss your site and provide accurate pricing.
+Start Your Build
+ADU Canada.
+Factory-built precision for Greater Windsor Area.
+© 2025 ADU Canada. All rights reserved.
